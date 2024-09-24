@@ -15,6 +15,15 @@ module ManyoIssue8
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w(assets tasks))
+    config.generators do |g|
+      g.test_framework :rspec,
+                       model_specs: true,
+                       view_specs: false,
+                       helper_specs: false,
+                       routing_specs: false,
+                       controller_specs: false,
+                       request_specs: false
+    end
 
     # Configuration for the application, engines, and railties goes here.
     #

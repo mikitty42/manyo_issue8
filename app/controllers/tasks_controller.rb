@@ -9,11 +9,16 @@ class TasksController < ApplicationController
   
   def create
       @task = Task.new(task_params)
-      if @task.save
-          flash[:danger] = 'Taskを投稿しました'
-          redirect_to tasks_path
-      else
+      if params[:back]
           render :new, status: :unprocessable_entity
+      else
+          if @task.save
+              flash[:danger] = 'Taskを投稿しました'
+              redirect_to tasks_path
+          else
+              render :new, status: :unprocessable_entity
+          end
+          
       end
   end
   
@@ -27,7 +32,7 @@ class TasksController < ApplicationController
   
   def update
       @task = Task.find(params[:id])
-      if @taks.update(task_params)
+      if @task.update(task_params)
           flash[:notice] = 'Taskを編集しました'
           redirect_to tasks_path
       else
@@ -37,15 +42,20 @@ class TasksController < ApplicationController
   end
   
   def destroy
-      @task = Task.find(patams[:id])
+      @task = Task.find(params[:id])
       @task.destroy
       flash[:notice] = 'Taskを削除しました'
       redirect_to tasks_path
   end
   
+  
+  def confirm
+      @task = Task.new(task_params)
+      render new if @task.invalid?
+  end
   private
   
   def task_params
-      params.require(:taks).permit(:title,:content)
+      params.require(:task).permit(:title,:content)
   end
 end
