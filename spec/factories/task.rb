@@ -1,13 +1,15 @@
 FactoryBot.define do
     factory :task do
-        title { 'Factoryで作ったデフォルトのタイトル１' }
-        content { 'Factoryで作ったデフォルトのコンテント１' }
+        title { 'test1' }
+        content { 'content1' }
+        end_date { '2024-10-01'}
       end
       # 作成するテストデータの名前を「second_task」とします
       # （存在しないクラス名の名前をつける場合、オプションで「このクラスのテストデータにしてください」と指定します）
       factory :second_task, class: Task do
-        title { 'Factoryで作ったデフォルトのタイトル２' }
-        content { 'Factoryで作ったデフォルトのコンテント２' }
+        title { 'test2' }
+        content { 'content2' }
+        end_date { '2024-10-30'}
 
   end
 end

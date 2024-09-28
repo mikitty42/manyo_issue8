@@ -8,9 +8,11 @@ RSpec.describe 'タスク管理機能', type: :system do
           visit new_task_path
           fill_in 'Title' ,with: 'task_title'
           fill_in 'Content', with: 'task_content'
+          fill_in 'End date', with: "002019-11-11"
           click_on '登録する'
           expect(page).to have_content 'task_title'
           expect(page).to have_content 'task_content'
+          expect(page).to have_content "2019-11-11"
       end
     end
   end
@@ -30,6 +32,16 @@ RSpec.describe 'タスク管理機能', type: :system do
           visit tasks_path
           list = all('.task_list')[0]
           expect(list).to have_content 'task3'
+        end
+      end
+  context '終了期限でソートした場合' do
+        it '終了期限の降順に並び替えられたタスク一覧が表示される' do
+          FactoryBot.create(:task, end_date: '2024-09-28')
+          FactoryBot.create(:task, end_date: '2024-09-30')
+          visit tasks_path
+          click_on '終了期限でソートする'
+          list = all('.task_list')[0]
+          expect(list).to have_content '2024-10-01'
         end
       end
   describe '詳細表示機能' do
