@@ -24,6 +24,11 @@
         <%= form.date_field :end_date %>
     </div>
     
+    <div id='task_status'>
+        <%= form.label :status %>
+        <%= form.select :status, Task.statuses.keys.to_a, {}, class: 'form-control' %> 
+    </div>
+    
     <%= form.submit %>
 <% end %>
 
