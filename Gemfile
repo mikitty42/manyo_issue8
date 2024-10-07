@@ -24,6 +24,9 @@ gem 'kaminari'
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 gem "bootsnap", require: false
+gem 'bootstrap', '~> 5.3.0'
+gem 'jquery-rails'
+gem "sassc-rails"
 
 
 group :development, :test do
