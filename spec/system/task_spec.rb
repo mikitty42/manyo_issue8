@@ -9,10 +9,14 @@ RSpec.describe 'タスク管理機能', type: :system do
           fill_in 'Title' ,with: 'task_title'
           fill_in 'Content', with: 'task_content'
           fill_in 'End date', with: "002019-11-11"
+          select '完了',from: 'task_status'
+          select '中',from: 'task_priority'
           click_on '登録する'
           expect(page).to have_content 'task_title'
           expect(page).to have_content 'task_content'
           expect(page).to have_content "2019-11-11"
+          expect(page).to have_content "完了"
+          expect(page).to have_content "中"
       end
     end
   end
@@ -54,4 +58,36 @@ RSpec.describe 'タスク管理機能', type: :system do
        end
      end
   end
+  describe '検索機能' do
+      #before do
+        # 必要に応じて、テストデータの内容を変更して構わない
+        #FactoryBot.create(:task, title: "task")
+        #FactoryBot.create(:second_task, title: "sample")
+      #end
+
+      context 'タイトルであいまい検索をした場合' do
+        it "検索キーワードを含むタスクで絞り込まれる" do
+          visit tasks_path
+          fill_in 'タイトル検索', with: 'task1'
+          click_button '検索'
+          expect(page).to have_content 'task1'
+        end
+      end
+      context 'ステータス検索をした場合' do
+        it "ステータスに完全一致するタスクが絞り込まれる" do
+          visit tasks_path
+          select '完了',from: 'task_status'
+          expect(page).to have_content '完了'
+        end
+      end
+      context 'タイトルのあいまい検索とステータス検索をした場合' do
+        it "検索キーワードをタイトルに含み、かつステータスに完全一致するタスク絞り込まれる" do
+          visit tasks_path
+          fill_in 'タイトル検索', with: 'task1'
+          select '未着手',from: 'task_status'
+          expect(page).to have_content 'task1'
+          expect(page).to have_content '未着手'
+        end
+      end
+    end
 end

@@ -3,6 +3,8 @@ FactoryBot.define do
         title { 'test1' }
         content { 'content1' }
         end_date { '2024-10-01'}
+        status { '未着手' }
+        priority { '高'}
       end
       # 作成するテストデータの名前を「second_task」とします
       # （存在しないクラス名の名前をつける場合、オプションで「このクラスのテストデータにしてください」と指定します）
@@ -10,6 +12,8 @@ FactoryBot.define do
         title { 'test2' }
         content { 'content2' }
         end_date { '2024-10-30'}
+        status { '完了' }
+        priority { '中'}
 
   end
 end
