@@ -1,21 +1,36 @@
 <h2>Task一覧</h2>
+<%= form_with(url: tasks_path,scope: :task,local: true,method: :get) do |form| %>
+    <%= form.text_field :title,placeholder:"タイトル検索" %>
+    <%= form.select :status, Task.statuses.keys.to_a, {prompt: "選択してください"}, class: 'form-control' %>
+    <%= form.submit '検索' %>
+<% end %>
+<button type="button" class="btn btn-info"><%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %></button>
+<button type="button" class="btn btn-light"><%= link_to "優先順位でソートする", tasks_path(sort_prioritized: "true") %></button>
 <div class='task_list'>
-<table>
+<table class="table table-striped">
     <tr>
         <th>タイトル</th>
         <th>内容</th>
+        <th>終了期限</th>
+        <th>ステータス</th>
+        <th>優先順位</th>
     </tr>
         <% @tasks.each do |task| %>
     <tr>
     
         <td><%= task.title %></td>
         <td><%= task.content %></td>
-        <td><%= link_to 'タスク詳細',task_path(task.id) %></td>
-        <td><%= link_to 'タスクを編集する',edit_task_path(task.id) %></td>
-        <td><%= link_to 'ブログを削除する',task_path(task.id),data: {turbo_method: :delete,turbo_confirm: "Are you sure?"} %></td>
+        <td><%= task.end_date %></td>
+        <td><%= task.status %></td>
+        <td><%= task.priority %></td>
+        <td><button type="button" class="btn btn-info"><%= link_to 'タスク詳細',task_path(task.id) %></button></td>
+        <td><button type="button" class="btn btn-light"><%= link_to 'タスクを編集する',edit_task_path(task.id) %></button></td>
+        <td><button type="button" class="btn btn-secondary"><%= link_to 'ブログを削除する',task_path(task.id),data: {turbo_method: :delete,turbo_confirm: "Are you sure?"} %></button></td>
     <% end %>
     </tr>
 </table>
 </div>
 <%= link_to 'Taskを投稿する',new_task_path %>
+
+<%= paginate @tasks %>
         
